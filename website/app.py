@@ -6,7 +6,6 @@ import yaml
 from dash import Dash, html
 from flask import Flask
 
-from . import callbacks  # noqa: F401
 from .layout import content
 
 URL_PREFIX = os.getenv("URL_PREFIX", "") + "/"

@@ -14,6 +14,6 @@ def content() -> list:
     with open(Path(__file__).parent / "static" / "index.md", "r") as f:
         md = f.readlines()
 
-    table = data_table(src=Path("data/data_table.csv"))
+    table = data_table(table_path=Path("data/data_table.csv"))
 
     return [dcc.Markdown(md), table]
