@@ -1,0 +1,14 @@
+name: suprashare
+channels: 
+  - conda-forge
+dependencies:
+  - python
+  - rdkit
+  - scikit-learn
+  - gunicorn
+  - scipy
+  - pytest
+  - xarray
+  - dash-bootstrap-components
+  - dash-bio
+  - pyyaml
