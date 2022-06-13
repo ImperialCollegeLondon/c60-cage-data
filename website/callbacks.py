@@ -2,10 +2,7 @@ from pathlib import Path
 
 import dash_bootstrap_components as dbc
 from dash import callback
-from dash.dependencies import MATCH, Input, Output, State
-from dash.exceptions import PreventUpdate
-
-from .model import predict
+from dash.dependencies import Input, Output, State
 
 
 @callback(
@@ -64,48 +61,3 @@ def add_row(n_clicks: int, children: list) -> list:
         )
     )
     return children + [form]
-
-
-@callback(
-    Output({"type": "result", "index": MATCH}, "children"),
-    Input({"type": "run-button", "index": MATCH}, "n_clicks"),
-    State({"type": "model-dropdown", "index": MATCH}, "value"),
-    State({"type": "bb", "index": MATCH}, "value"),
-    State({"type": "lk", "index": MATCH}, "value"),
-)
-def run_model(n_clicks: int, model_name: str, bb: str, lk: str) -> dbc.Label:
-    """Runs the model when the "Run Model" button is clicked and displays the result.
-
-    Since there are potentially multiple "Run Model" buttons, we need to know which one
-    was clicked so we can fill in the corresponding result box. This is done using
-    Pattern-Matching Callbacks (see: https://dash.plotly.com/pattern-matching-callbacks)
-
-    Args:
-        n_clicks (int): Increments on a button click. The trigger for this callback.
-        model_name (str): The name of the desired model to run
-        bb (str): The Building Block SMILES string.
-        lk (str): The Linker SMILES string.
-
-    Raises:
-        PreventUpdate: Prevents the callback from being run automatically on page load.
-
-    Returns:
-        dbc.Label: A label with the result of the model. Possible Answers:
-            - INVALID INPUT
-            - COLLAPSED
-            - SHAPE PERSISTENT
-            - MODEL ERROR
-    """
-    if n_clicks is None or bb is None or lk is None:
-        raise PreventUpdate
-
-    try:
-        result = predict(model_name, bb, lk)
-    except ValueError:
-        return dbc.Label("INVALID INPUT", color="warning")
-
-    if result == 1:
-        return dbc.Label("COLLAPSED", color="danger")
-    if result == 0:
-        return dbc.Label("SHAPE PERSISTENT", color="success")
-    return dbc.Label("MODEL ERROR", color="warning")

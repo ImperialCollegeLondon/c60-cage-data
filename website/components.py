@@ -1,12 +1,5 @@
-import base64
-
 import dash_bootstrap_components as dbc
-from dash import callback, dcc
-from dash.dependencies import MATCH, Input, Output
-from dash.exceptions import PreventUpdate
-from rdkit.Chem import MolFromSmiles
-from rdkit.Chem.Draw import MolsToGridImage
-from rdkit.Chem.rdmolfiles import MolFromMolBlock, MolToSmiles
+from dash import dcc
 
 
 def image_card(src: str, caption: str = None) -> dbc.Card:
@@ -72,33 +65,6 @@ def _mol_smiles(id_index: int) -> dcc.Store:
     return dcc.Store(id=dict(type="mol-smiles", index=id_index))
 
 
-@callback(
-    Output({"type": "mol-smiles", "index": MATCH}, "data"),
-    Input({"type": "mol-file-upload", "index": MATCH}, "contents"),
-)
-def upload_mol_file(contents: str) -> str:
-    """Converts the contents of an uploaded .mol file to a SMILES string and stores it
-    in the mol-smiles data store.
-
-    Args:
-        contents (str): The contents of the uploaded file as a binary string.
-
-    Raises:
-        PreventUpdate: Prevents the callback from being run automatically on page load.
-
-    Returns:
-        str: A SMILES string.
-    """
-    if contents is None:
-        raise PreventUpdate
-
-    _, content_string = contents.split(",")
-    decoded = base64.b64decode(content_string)
-
-    mol = MolFromMolBlock(decoded)
-    return MolToSmiles(mol)
-
-
 def mol_image(id_index: int, width=3) -> list:
     """A container for a molecule image.
 
@@ -118,22 +84,3 @@ def mol_image(id_index: int, width=3) -> list:
         _mol_smiles(id_index),
         dbc.Col(id=dict(type="mol-image", index=id_index), width=width),
     ]
-
-
-@callback(
-    Output({"type": "mol-image", "index": MATCH}, "children"),
-    Input({"type": "mol-smiles", "index": MATCH}, "data"),
-)
-def display_mol_image(smiles: str) -> dbc.Card:
-    """Displays the image of the molecule in mol-smiles in the mol-image container.
-
-    Args:
-        smiles (str): A SMILES string from the _mol_smiles data store.
-
-    Returns:
-        dbc.Card: A card with the molecular image and the SMILES strings as a caption.
-    """
-    mol = MolFromSmiles(smiles)
-    img = MolsToGridImage([mol], molsPerRow=1, subImgSize=(426, 240))
-
-    return image_card(img, smiles)
