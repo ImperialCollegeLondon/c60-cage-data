@@ -11,8 +11,8 @@ import pandas as pd
 from pymatgen.core import Molecule
 from tqdm import tqdm
 
-cage_path = Path("data/array_all_cage/")
-complex_path = Path("data/array_all_comp/")
+cage_path = Path("website/assets/data/array_all_cage/")
+complex_path = Path("website/assets/data/array_all_comp/")
 
 cage_data = []
 for i in tqdm(range(0, 3870)):
