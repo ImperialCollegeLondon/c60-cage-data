@@ -8,8 +8,8 @@ This app is jointly developed by the [Jelfs Research Group](http://www.jelfs-gro
 
 ### Editing the table
 
-The data table is generated from the raw data `make_index_table.py`. This currently uses [pymatgen](https://pymatgen.org) to generate a formulas from the .xyz files and put these into a very simple table. This script can be adapted as needed to generate a more complex table with more useful columns. 
+The data table is generated from the raw data `make_index_table.py`. This currently uses [pymatgen](https://pymatgen.org) to generate a formulas from the .xyz files and put these into a very simple table. This script can be adapted as needed to generate a more complex table with more useful columns.
 
 ### Data
 
-The data at [https://data.hpc.imperial.ac.uk/resolve/?doi=6054](https://data.hpc.imperial.ac.uk/resolve/?doi=6054) must be extracted into `website/assets/data/` for the download links to work, and for the table to be regenerated using `make_index_table.py`. 
+The data at [https://data.hpc.imperial.ac.uk/resolve/?doi=6054](https://data.hpc.imperial.ac.uk/resolve/?doi=6054) must be extracted into `website/assets/data/` for the download links to work, and for the table to be regenerated using `make_index_table.py`.
