@@ -18,26 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Conda setup
-        uses: s-weigand/setup-conda@v1
+      - name: Micromamba setup
+        uses: mamba-org/provision-with-micromamba@main
         with:
-          update-conda: true
+          cache-env: true
+          micromamba-version: 0.24.0
+          environment-name: c60-cage-data
 
-      # cache the conda installation to speedup CI runs
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: /usr/share/miniconda/envs/suprashare
-          key: ${{ runner.os }}-conda-cache-${{ hashFiles('environment.yml') }}
-          
-      - name: Conda environment creation
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          conda env create -f environment.yml
-          source activate suprashare
       - name: Run tests
+        shell: bash -l {0}
         run: |
-          source activate suprashare
           pytest -v 
 
   publish:
