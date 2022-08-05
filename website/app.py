@@ -46,7 +46,7 @@ navbar = dbc.NavbarSimple(
 server = Flask(__name__)
 app = Dash(
     __name__,
-    external_stylesheets=[dbc.themes.FLATLY],
+    external_stylesheets=[dbc.themes.LUX],
     server=server,
     requests_pathname_prefix=URL_PREFIX,
     routes_pathname_prefix=URL_PREFIX,
