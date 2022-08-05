@@ -8,7 +8,9 @@ PAGE_SIZE = 15
 
 
 def return_link(row, col_name):
-    return "[Download](assets/{})".format(row[col_name])
+    return "[Download {} {}](assets/{})".format(
+        col_name, row[col_name].split("/")[-2], row[col_name]
+    )
 
 
 def data_table(table_path: Union[Path, str]) -> dash_table:
